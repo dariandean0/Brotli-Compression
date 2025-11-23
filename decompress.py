@@ -1,5 +1,25 @@
 import sys
-import brotli
+
+def lz77_decompress(compressed_data:bytes) -> bytes:
+    n = len(compressed_data)
+    i = 0
+    out = bytearray()
+    while i<n:
+        flag = compressed_data[i]
+        i+=1
+        if flag == 0:
+            out.append(compressed_data[i])
+            i +=1
+        elif flag ==1:
+            length = compressed_data[i]
+            distance = compressed_data[i+1]
+            i +=2
+            start = len(out) - distance
+            for _ in range(length):
+                out.append(out[start])
+                start +=1
+    return bytes(out)
+
 
 def main():
     if len(sys.argv) != 3:
@@ -14,7 +34,7 @@ def main():
         compressed_data = fin.read()
 
     # Decompress using Brotli
-    decompressed_data = brotli.decompress(compressed_data)
+    decompressed_data = lz77_decompress(compressed_data)
 
     # Write restored file
     with open(outputPath, "wb") as fout:
