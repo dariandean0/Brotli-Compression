@@ -1,0 +1,16 @@
+id,name,email,age,city,state,salary,department
+1,John Smith,john.smith@company.com,35,New York,NY,75000,Engineering
+2,Jane Doe,jane.doe@company.com,28,Los Angeles,CA,65000,Marketing
+3,Bob Wilson,bob.wilson@company.com,42,Chicago,IL,85000,Engineering
+4,Alice Brown,alice.brown@company.com,31,Houston,TX,70000,Sales
+5,Charlie Davis,charlie.davis@company.com,39,Phoenix,AZ,72000,Engineering
+6,Diana Evans,diana.evans@company.com,26,Philadelphia,PA,58000,Marketing
+7,Frank Miller,frank.miller@company.com,44,San Antonio,TX,90000,Management
+8,Grace Taylor,grace.taylor@company.com,33,San Diego,CA,68000,Sales
+9,Henry Anderson,henry.anderson@company.com,37,Dallas,TX,76000,Engineering
+10,Ivy Thomas,ivy.thomas@company.com,29,San Jose,CA,71000,Marketing
+11,Jack Jackson,jack.jackson@company.com,41,Austin,TX,82000,Engineering
+12,Kelly White,kelly.white@company.com,27,Jacksonville,FL,62000,Sales
+13,Leo Harris,leo.harris@company.com,36,Fort Worth,TX,74000,Engineering
+14,Mary Martin,mary.martin@company.com,32,Columbus,OH,69000,Marketing
+15,Nathan Lee,nathan.lee@company.com,40,Charlotte,NC,80000,Management

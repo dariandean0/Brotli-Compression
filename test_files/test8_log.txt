@@ -1,0 +1,22 @@
+[2025-11-23 10:15:32] INFO: Application started successfully
+[2025-11-23 10:15:33] INFO: Loading configuration from config.json
+[2025-11-23 10:15:33] INFO: Database connection established
+[2025-11-23 10:15:34] INFO: Server listening on port 8080
+[2025-11-23 10:15:45] INFO: Received request GET /api/users
+[2025-11-23 10:15:45] INFO: Processing request for user ID: 12345
+[2025-11-23 10:15:45] INFO: Query executed successfully in 45ms
+[2025-11-23 10:15:45] INFO: Response sent with status 200
+[2025-11-23 10:16:02] WARN: High memory usage detected: 85%
+[2025-11-23 10:16:02] INFO: Received request POST /api/data
+[2025-11-23 10:16:02] INFO: Validating input data
+[2025-11-23 10:16:02] INFO: Data validation passed
+[2025-11-23 10:16:03] INFO: Processing request for user ID: 67890
+[2025-11-23 10:16:03] INFO: Query executed successfully in 38ms
+[2025-11-23 10:16:03] INFO: Response sent with status 201
+[2025-11-23 10:16:15] ERROR: Connection timeout to external service
+[2025-11-23 10:16:15] INFO: Retrying connection (attempt 1/3)
+[2025-11-23 10:16:17] INFO: Connection established
+[2025-11-23 10:16:18] INFO: Received request GET /api/stats
+[2025-11-23 10:16:18] INFO: Processing request for user ID: 11111
+[2025-11-23 10:16:18] INFO: Query executed successfully in 52ms
+[2025-11-23 10:16:18] INFO: Response sent with status 200

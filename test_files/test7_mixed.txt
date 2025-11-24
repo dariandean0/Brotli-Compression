@@ -1,0 +1,15 @@
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. 12345
+Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 67890
+Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. @#$%
+
+ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789
+
+The quick brown fox jumps over the lazy dog.
+THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG.
+the quick brown fox jumps over the lazy dog.
+
+Symbol test: !@#$%^&*()_+-=[]{}|;':",.<>?/~`
+Repeated symbols: !!!! @@@@ #### $$$$ %%%% ^^^^ &&&& ****
+
+Mixed case: ThIs Is A tEsT oF mIxEd CaSe TeXt FoR cOmPrEsSiOn
+Numbers: 123 456 789 101112 131415 161718 192021 222324 252627
