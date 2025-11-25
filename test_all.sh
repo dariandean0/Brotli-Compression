@@ -1,15 +1,13 @@
-#!/bin/bash
-
 # Colors for output
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-echo "========================================"
-echo "  Brotli Compression Test Suite"
-echo "========================================"
+echo "============================"
+echo "  Brotli Compression Test"
+echo "============================"
 echo ""
 
 # Check if test_files directory exists
@@ -18,7 +16,6 @@ if [ ! -d "test_files" ]; then
     exit 1
 fi
 
-# Count test files
 num_files=$(ls test_files/test*.txt test_files/test*.py test_files/test*.json test_files/test*.html test_files/test*.csv 2>/dev/null | wc -l)
 echo "Found $num_files test files"
 echo ""
@@ -26,7 +23,6 @@ echo ""
 passed=0
 failed=0
 
-# Function to test a file
 test_file() {
     local input_file=$1
     local test_name=$(basename "$input_file")
@@ -38,7 +34,6 @@ test_file() {
     echo -e "${BLUE}Testing: $test_name${NC}"
     echo "----------------------------------------"
     
-    # Get original size
     original_size=$(wc -c < "$input_file")
     echo "  Original size: $original_size bytes"
     
@@ -52,18 +47,18 @@ test_file() {
         # Decompress and verify
         if python3 decompress.py "$output_no_ctx" "$restored_no_ctx" > /dev/null 2>&1; then
             if diff -q "$input_file" "$restored_no_ctx" > /dev/null 2>&1; then
-                echo -e "    ${GREEN}✓ Verified: decompression successful${NC}"
+                echo -e "    ${GREEN}Verified: decompression successful${NC}"
                 ((passed++))
             else
-                echo -e "    ${RED}✗ Failed: files don't match${NC}"
+                echo -e "    ${RED}Failed: files don't match${NC}"
                 ((failed++))
             fi
         else
-            echo -e "    ${RED}✗ Failed: decompression error${NC}"
+            echo -e "    ${RED}Failed: decompression error${NC}"
             ((failed++))
         fi
     else
-        echo -e "    ${RED}✗ Failed: compression error${NC}"
+        echo -e "    ${RED}Failed: compression error${NC}"
         ((failed++))
     fi
     
@@ -77,18 +72,18 @@ test_file() {
         # Decompress and verify
         if python3 decompress.py "$output_ctx" "$restored_ctx" > /dev/null 2>&1; then
             if diff -q "$input_file" "$restored_ctx" > /dev/null 2>&1; then
-                echo -e "    ${GREEN}✓ Verified: decompression successful${NC}"
+                echo -e "    ${GREEN}Verified: decompression successful${NC}"
                 ((passed++))
             else
-                echo -e "    ${RED}✗ Failed: files don't match${NC}"
+                echo -e "    ${RED}Failed: files don't match${NC}"
                 ((failed++))
             fi
         else
-            echo -e "    ${RED}✗ Failed: decompression error${NC}"
+            echo -e "    ${RED}Failed: decompression error${NC}"
             ((failed++))
         fi
     else
-        echo -e "    ${RED}✗ Failed: compression error${NC}"
+        echo -e "    ${RED}Failed: compression error${NC}"
         ((failed++))
     fi
     
@@ -120,9 +115,9 @@ fi
 echo ""
 
 if [ $failed -eq 0 ]; then
-    echo -e "${GREEN}✓ All tests passed!${NC}"
+    echo -e "${GREEN}All tests passed!${NC}"
     exit 0
 else
-    echo -e "${RED}✗ Some tests failed${NC}"
+    echo -e "${RED}Some tests failed${NC}"
     exit 1
 fi

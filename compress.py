@@ -132,7 +132,7 @@ def main():
     packed, pad = bits_to_bytes(encoded_bits)
     print(f"  After Huffman: {len(packed):,} bytes")
 
-    # Save: codebook size + codebook + pad + packed bits
+    # Save codebook size + codebook + pad + packed bits
     codebook_str = ";".join(f"{k}:{v}" for k, v in codebook.items())
     cb_bytes = codebook_str.encode()
     with open(outputPath, "wb") as fout:

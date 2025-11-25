@@ -11,8 +11,7 @@ class ContextModel:
         self.contexts: Dict[Tuple, Counter] = defaultdict(Counter)
     
     # Train context model on data
-    # Analyze the data to learn which symbols typically follow
-    # certain contexts (sequences of previous symbols).
+    # Analyze the data to learn which symbols typically follow certain contexts.
     def train(self, data: bytes):
         # Need at least order+1 bytes to build contexts
         if len(data) <= self.order:
@@ -29,14 +28,13 @@ class ContextModel:
     # Get probability distribution for next symbol given context
     def predict_probabilities(self, context: Tuple[int, ...]) -> Dict[int, float]:
         if context not in self.contexts:
-            # Uniform distribution if context unseen
             return {i: 1.0 / 256 for i in range(256)}
         
         total = sum(self.contexts[context].values())
         return {symbol: count / total 
                 for symbol, count in self.contexts[context].items()}
     
-    # Get context-aware frequencies for Huffman tree building
+    # Get context aware frequencies for Huffman tree
     def get_adaptive_frequencies(self, data: bytes) -> Dict[int, int]:
         # Start with base frequency counts
         base_freq = Counter(data)
@@ -56,12 +54,12 @@ class ContextModel:
                     # Very predictable: significantly boost frequency
                     base_freq[symbol] = int(base_freq[symbol] * 1.5)
                 elif context_prob > 0.5:
-                    # Somewhat predictable: modest boost
+                    # Somewhat predictable: moderate boost
                     base_freq[symbol] = int(base_freq[symbol] * 1.2)
         
         return dict(base_freq)
     
-    # Get statistics about learned contexts (debugging)
+    # Get statistics about learned contexts
     def get_context_statistics(self) -> Dict[str, any]:
         total_contexts = len(self.contexts)
         total_observations = sum(sum(counter.values()) 
@@ -133,39 +131,3 @@ def analyze_context_benefit(data: bytes, order: int = 1) -> Dict[str, float]:
         'contexts_learned': len(model.contexts),
         'recommendation': 'beneficial' if predictable_ratio > 0.3 else 'marginal'
     }
-
-# Example usage/testing
-if __name__ == "__main__":
-    test_data = b"abcabcabcabcdefdefdefdef" * 100
-    
-    print("Context Modeling Demo")
-    print("=" * 60)
-    print(f"Test data size: {len(test_data)} bytes\n")
-    
-    model = ContextModel(order=1)
-    model.train(test_data)
-    
-    stats = model.get_context_statistics()
-    print("Context Model Statistics:")
-    print(f"  Total contexts learned: {stats['total_contexts']}")
-    print(f"  Total observations: {stats['total_observations']}")
-    print(f"  Avg observations/context: {stats['avg_observations_per_context']:.2f}")
-    print("\nTop 5 most predictable contexts:")
-    for context, prob in stats['top_5_predictable_contexts']:
-        context_str = ''.join(chr(b) if 32 <= b < 127 else f'\\x{b:02x}' for b in context)
-        print(f"  Context '{context_str}': {prob:.1%} predictable")
-    
-    print("\n" + "=" * 60)
-    analysis = analyze_context_benefit(test_data, order=1)
-    print("Context Modeling Benefit Analysis:")
-    print(f"  Predictable symbols: {analysis['predictable_ratio']:.1%}")
-    print(f"  Estimated entropy reduction: {analysis['entropy_reduction']:.1%}")
-    print(f"  Contexts learned: {analysis['contexts_learned']}")
-    print(f"  Recommendation: {analysis['recommendation']}")
-    
-    # Get adaptive frequencies
-    print("\n" + "=" * 60)
-    print("Sample: Adaptive Frequencies (first 5 symbols)")
-    frequencies = model.get_adaptive_frequencies(test_data)
-    for i, (symbol, freq) in enumerate(sorted(frequencies.items())[:5]):
-        print(f"  Symbol '{chr(symbol)}': {freq} occurrences")

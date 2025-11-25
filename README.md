@@ -26,11 +26,11 @@ Our implementation uses a three-stage compression pipeline:
 - Trains first-order Markov model on input data
 - Learns which symbols typically follow others
 - Adjusts Huffman frequencies for predictable symbols
-- Serializes model with compressed data
+- Serializes model with compressed data using pickle library for simplicity and time
 
 **Trade-off:**
 - Adds ~1KB overhead for model storage
-- Only beneficial for files > 10KB with predictable patterns
+- Only beneficial for larger files with predictable patterns
 - Our implementation shows limited benefit on small files
 
 ### Stage 3: Huffman Coding
@@ -71,7 +71,7 @@ python3 decompress.py output.br restored.txt
 
 ## Running Tests
 
-### Run All Tests (Recommended)
+### Run All Tests
 ```bash
 ./test_all.sh
 ```
@@ -92,7 +92,7 @@ diff LOTR-The_Fellowship_of_the_Ring lotr_restored.txt
 
 ### Sample Results
 
-**LOTR File (1 MB, Natural English Text):**
+**LOTR File (1 MB):**
 ```
 Original size:      1,001,864 bytes (978 KB)
 Compressed size:    790,051 bytes (771 KB)
@@ -117,10 +117,9 @@ Most files EXPAND instead of compress:
 
 Our implementation suffers from **high overhead** on small files:
 
-**1. Codebook Storage (~300-400 bytes)**
+**1. Codebook Storage**
 - Huffman codebook stored as text: `"65:0101;66:0110;..."`
 - For an 80-byte file, codebook is 400 bytes
-- Result: 5× size increase
 
 **2. LZ77 Expansion**
 - LZ77 output often LARGER than input for small files
@@ -130,14 +129,13 @@ Our implementation suffers from **high overhead** on small files:
 
 **3. Context Model Overhead (~1 KB)**
 - Pickle serialization of context model
-- Only beneficial for files > 10 KB
+- Only beneficial for larger files
 - Smaller files: overhead exceeds benefit
 
 ### Limitations of This Implementation
 
 **1. Small Window Size (255 bytes)**
 - Real Brotli uses 16 MB window
-- GZIP uses 32 KB window
 - Our 255-byte window misses long-range patterns
 
 **2. Short Max Match (18 bytes)**
@@ -147,14 +145,14 @@ Our implementation suffers from **high overhead** on small files:
 
 **3. Inefficient Codebook Format**
 - Text-based storage wastes space
-- Binary format would save 50-70%
+- Binary format would save space
 
 **4. No Block Compression**
 - Processes entire file at once
 - Real Brotli splits into blocks with separate dictionaries
 
 **5. Python vs C**
-- Pure Python is 50-1000× slower
+- Pure Python is slower
 - No low-level bit manipulation optimizations
 
 ---
@@ -169,13 +167,11 @@ Our implementation suffers from **high overhead** on small files:
 
 **2. Optimized C Implementation**
 - GZIP: assembly-optimized, 30+ years of refinement
-- Ours: educational Python code
-- Speed difference: 200-300× faster
+- Ours: simple Python code
 
 **3. Efficient Format**
 - GZIP uses DEFLATE format (binary, compact)
 - Our codebook: text-based, verbose
-- GZIP overhead: ~20 bytes vs our ~400 bytes
 
 **4. Better Algorithm**
 - GZIP: lazy matching, optimal parsing

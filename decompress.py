@@ -64,7 +64,7 @@ def main():
             compressed_data = all_data[:marker_pos]
             
             # Extract model size and data
-            model_size_pos = marker_pos + 8  # After "CTXMODEL"
+            model_size_pos = marker_pos + 8  # After marker
             if model_size_pos + 4 <= len(all_data):
                 model_size = int.from_bytes(
                     all_data[model_size_pos:model_size_pos + 4],
