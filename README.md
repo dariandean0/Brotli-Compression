@@ -85,7 +85,7 @@ This will:
 ### Individual File Tests
 ```bash
 # Test with large file (LOTR)
-python3 compress.py LOTR-The_Fellowship_of_the_Ring lotr.br
+python3 compress.py LOTR-The_Fellowship_of_the_Ring lotr.br --use-context
 python3 decompress.py lotr.br lotr_restored.txt
 diff LOTR-The_Fellowship_of_the_Ring lotr_restored.txt
 ```
